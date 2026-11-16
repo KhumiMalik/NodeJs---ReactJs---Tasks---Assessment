@@ -1,0 +1,78 @@
+// Prisma models use camelCase; tables and columns are mapped to snake_case.
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "esm"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id              Int       @id @default(autoincrement())
+  name            String    @db.VarChar(255)
+  email           String    @unique @db.VarChar(255)
+  password        String    @db.VarChar(255)
+  emailVerifiedAt DateTime? @map("email_verified_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  tasks      Task[]
+  activities TaskActivity[]
+
+  @@map("users")
+}
+
+model Task {
+  id          Int       @id @default(autoincrement())
+  userId      Int       @map("user_id")
+  title       String    @db.VarChar(255)
+  description String?   @db.Text
+  isCompleted Boolean   @default(false) @map("is_completed")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activities TaskActivity[]
+
+  // Every task query filters by owner and trash state and sorts newest first.
+  // The leading user_id column also serves as the index for the foreign key.
+  @@index([userId, deletedAt, createdAt])
+  @@map("tasks")
+}
+
+enum ActivityAction {
+  TASK_COMPLETED
+}
+
+model TaskActivity {
+  id        Int            @id @default(autoincrement())
+  userId    Int            @map("user_id")
+  // Set to NULL when the task is permanently deleted so history survives.
+  taskId    Int?           @map("task_id")
+  // Snapshot of the title so history stays readable after permanent deletion.
+  taskTitle String         @map("task_title") @db.VarChar(255)
+  action    ActivityAction
+  createdAt DateTime       @default(now()) @map("created_at")
+
+  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task Task? @relation(fields: [taskId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([taskId])
+  @@map("task_activities")
+}
+
+// Owned by express-mysql-session at runtime; defined here so Prisma migrations
+// remain the single source of truth for the schema. Matches the store's schema.sql.
+model Session {
+  sessionId String  @id @map("session_id") @db.VarChar(128)
+  expires   Int     @db.UnsignedInt
+  data      String? @db.MediumText
+
+  @@index([expires])
+  @@map("sessions")
+}
