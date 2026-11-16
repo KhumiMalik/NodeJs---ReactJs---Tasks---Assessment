@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+coverage/
+*.tsbuildinfo
+
+# Generated Prisma client (recreated by `npm install` / `prisma generate`)
+backend/src/generated/
+
+# Environment files: real secrets stay local. Examples and the test config are committed.
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Logs and OS/editor noise
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/

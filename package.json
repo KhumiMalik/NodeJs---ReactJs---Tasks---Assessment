@@ -1,0 +1,22 @@
+{
+  "name": "task-management",
+  "private": true,
+  "description": "Task Management System: Express + Prisma + MySQL API and React + Vite frontend",
+  "scripts": {
+    "install:all": "npm install && npm --prefix backend install && npm --prefix frontend install",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "db:migrate": "npm --prefix backend run db:deploy",
+    "db:seed": "npm --prefix backend run db:seed",
+    "lint": "npm --prefix backend run lint && npm --prefix frontend run lint",
+    "typecheck": "npm --prefix backend run typecheck && npm --prefix frontend run typecheck",
+    "test": "npm --prefix backend test && npm --prefix frontend test",
+    "build": "npm --prefix backend run build && npm --prefix frontend run build",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "verify": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run build"
+  },
+  "devDependencies": {
+    "prettier": "^3.10.1"
+  }
+}
