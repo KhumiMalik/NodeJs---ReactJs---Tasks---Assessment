@@ -10,6 +10,7 @@ import { notFoundHandler } from './middleware/not-found.js';
 import { activityRoutes } from './modules/activities/activity.routes.js';
 import { authRoutes } from './modules/auth/auth.routes.js';
 import { taskRoutes } from './modules/tasks/task.routes.js';
+import { weatherRoutes } from './modules/weather/weather.routes.js';
 import { sendSuccess } from './utils/api-response.js';
 
 export function createApp() {
@@ -32,6 +33,7 @@ export function createApp() {
   app.use('/api/auth', authRoutes);
   app.use('/api/tasks', taskRoutes);
   app.use('/api/activities', activityRoutes);
+  app.use('/api/weather', weatherRoutes);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
