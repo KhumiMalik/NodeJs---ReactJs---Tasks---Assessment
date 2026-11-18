@@ -1,4 +1,4 @@
-import { LayoutDashboard, LogOut, Trash2, X } from 'lucide-react';
+import { CloudSun, LayoutDashboard, LogOut, Trash2, X } from 'lucide-react';
 import { NavLink, useNavigate } from 'react-router';
 import { useCurrentUser, useLogout } from '../../hooks/useAuth';
 import { useTaskStatistics } from '../../hooks/useTasks';
@@ -30,6 +30,7 @@ export function Sidebar({ onNavigate, onClose }: SidebarProps) {
   const links = [
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, badge: stats?.pending },
     { to: '/trash', label: 'Trash', icon: Trash2, badge: stats?.trashed },
+    { to: '/weather', label: 'Weather', icon: CloudSun, badge: undefined },
   ];
 
   function handleLogout() {

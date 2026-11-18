@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Route, useNavigate } from 'react-router';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -43,6 +43,14 @@ describe('AppLayout mobile navigation', () => {
     vi.resetAllMocks();
     vi.mocked(authService.me).mockResolvedValue(testUser);
     vi.mocked(taskService.statistics).mockResolvedValue({ total: 0, completed: 0, pending: 0, trashed: 0 });
+  });
+
+  it('links to every main page, including Weather', () => {
+    renderLayout();
+    const nav = screen.getByRole('navigation', { name: 'Main' });
+    expect(within(nav).getByRole('link', { name: /dashboard/i })).toHaveAttribute('href', '/dashboard');
+    expect(within(nav).getByRole('link', { name: /trash/i })).toHaveAttribute('href', '/trash');
+    expect(within(nav).getByRole('link', { name: 'Weather' })).toHaveAttribute('href', '/weather');
   });
 
   it('opens the drawer and closes it with Escape', async () => {

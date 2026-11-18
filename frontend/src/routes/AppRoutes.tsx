@@ -8,6 +8,7 @@ import { NotFoundPage } from '../pages/NotFoundPage';
 import { RegisterPage } from '../pages/RegisterPage';
 import { TaskDetailPage } from '../pages/TaskDetailPage';
 import { TrashPage } from '../pages/TrashPage';
+import { WeatherPage } from '../pages/WeatherPage';
 
 /**
  * Route guards only decide what to *show*. Real authorization happens on the
@@ -44,6 +45,7 @@ export function AppRoutes() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/tasks/:id" element={<TaskDetailPage />} />
           <Route path="/trash" element={<TrashPage />} />
+          <Route path="/weather" element={<WeatherPage />} />
         </Route>
       </Route>
 
